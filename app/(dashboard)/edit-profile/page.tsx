@@ -12,15 +12,8 @@ const EditProfile = () => {
     router.push("/account");
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!currentUser) {
-    return <div>No user data found</div>;
-  }
-
   const user = {
+    id: currentUser?.data?._id,
     username: currentUser?.data?.username,
     email: currentUser?.data?.email,
     fullName: currentUser?.data?.fullName,
@@ -31,8 +24,10 @@ const EditProfile = () => {
   };
 
   return (
-    <div>
-      <EditProfileForm user={user} isLoading={isLoading} onBack={onBack} />
+    <div className="w-full min-h-screen p-2 md:p-4 flex justify-center items-center overflow-auto">
+      <div className="w-full max-w-[95%] sm:max-w-2xl">
+        <EditProfileForm user={user} isLoading={isLoading} onBack={onBack} />
+      </div>
     </div>
   );
 };
