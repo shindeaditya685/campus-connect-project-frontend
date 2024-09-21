@@ -26,10 +26,6 @@ const Profile = () => {
     }
   }, [currentUser?.data?.avatar]);
 
-  if (!currentUser) {
-    console.log("No current user found");
-  }
-
   const user = {
     username: currentUser?.data?.username,
     email: currentUser?.data?.email,
