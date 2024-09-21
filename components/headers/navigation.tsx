@@ -18,8 +18,8 @@ const routes = [
     href: "/books",
   },
   {
-    label: "Sell Your Books",
-    href: "/sell-books",
+    label: "List book",
+    href: "/list-book",
   },
   {
     label: "My Orders",
