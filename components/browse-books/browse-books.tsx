@@ -27,8 +27,8 @@ const educationLevels = [
   "Elementary School (Primary School)",
   "Middle School (Secondary School)",
   "High School",
-  "Undergraduate (Bachelor's Degree)",
-  "Postgraduate (Master's Degree or Higher)",
+  "Undergraduate",
+  "Postgraduate",
 ] as const;
 
 const bookConditions = [
@@ -150,10 +150,10 @@ const BrowseBooksComponent: React.FC = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col md:flex-row gap-6 p-6">
-      {/* Filter sidebar */}
-      <div className="w-full md:w-1/4 space-y-6">
-        <Card>
+    <div className="flex flex-col md:flex-row">
+      {/* Fixed Filter sidebar */}
+      <div className="w-full md:w-1/4 md:fixed md:top-[7rem] md:left-0 md:bottom-0 md:overflow-y-auto p-4">
+        <Card className="shadow-md">
           <CardHeader>
             <CardTitle>Filters</CardTitle>
           </CardHeader>
@@ -196,14 +196,18 @@ const BrowseBooksComponent: React.FC = () => {
       </div>
 
       {/* Books grid */}
-      <div className="w-full md:w-3/4">
-        <div className="space-y-4">
+      <div className="w-full md:w-3/4 md:ml-[25%] p-6  min-h-screen">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {isLoading ? (
-            <p>Loading books...</p>
+            <p className="col-span-full text-center text-lg font-semibold">
+              Loading books...
+            </p>
           ) : filteredBooks.length > 0 ? (
             filteredBooks.map((book) => <BookCard key={book.id} book={book} />)
           ) : (
-            <p>No books found matching the current filters.</p>
+            <p className="col-span-full text-center text-lg font-semibold">
+              No books found matching the current filters.
+            </p>
           )}
         </div>
       </div>
@@ -268,39 +272,37 @@ const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
 );
 
 const BookCard: React.FC<BookCardProps> = ({ book }) => (
-  <Card className="flex">
-    <div className="w-1/3">
+  <Card className="flex flex-col h-full shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div className="relative h-48">
       <Image
         src={book.image}
         alt={book.title}
-        className="w-full h-full object-cover"
-        width={100}
-        height={100}
+        layout="fill"
+        objectFit="cover"
+        className="rounded-t-lg"
       />
     </div>
-    <div className="w-2/3 p-4">
-      <CardHeader>
-        <CardTitle className="text-lg">{book.title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-gray-600">{book.sellerFullname}</p>
-        <p className="text-sm mt-2">
-          <BookOpen className="inline mr-1 h-4 w-4" /> {book.educationLevel}
-        </p>
-        <p className="text-sm mt-1">Condition: {book.bookCondition}</p>
-        <p className="text-sm mt-1">
-          <School className="inline mr-1 h-4 w-4" /> {book.instituteName}
-        </p>
-        <p className="text-sm mt-1">Status: {book.status}</p>
-      </CardContent>
-      <CardFooter className="flex justify-between items-center">
-        <span className="text-lg font-bold">
-          <DollarSign className="inline mr-1 h-5 w-5" />
-          {book.price}
-        </span>
-        <Button>Add to Cart</Button>
-      </CardFooter>
-    </div>
+    <CardHeader>
+      <CardTitle className="text-lg truncate">{book.title}</CardTitle>
+    </CardHeader>
+    <CardContent className="flex-grow">
+      <p className="text-sm text-gray-600">{book.sellerFullname}</p>
+      <p className="text-sm mt-2 flex items-center">
+        <BookOpen className="inline mr-1 h-4 w-4" /> {book.educationLevel}
+      </p>
+      <p className="text-sm mt-1">Condition: {book.bookCondition}</p>
+      <p className="text-sm mt-1 flex items-center">
+        <School className="inline mr-1 h-4 w-4" /> {book.instituteName}
+      </p>
+      <p className="text-sm mt-1">Status: {book.status}</p>
+    </CardContent>
+    <CardFooter className="flex justify-between items-center">
+      <span className="text-lg font-bold flex items-center">
+        <DollarSign className="inline mr-1 h-5 w-5" />
+        {book.price}
+      </span>
+      <Button>Add to Cart</Button>
+    </CardFooter>
   </Card>
 );
 

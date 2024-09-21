@@ -14,8 +14,8 @@ const routes = [
     href: "/",
   },
   {
-    label: "Browse Books",
-    href: "/browse-books",
+    label: "Books",
+    href: "/books",
   },
   {
     label: "Sell Your Books",
