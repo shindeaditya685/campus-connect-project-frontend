@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,6 +32,7 @@ interface UserProfileProps {
   onUpdatePassword: () => void;
   onEditAvatar: () => void;
   isLoading: boolean;
+  isUpdatingAvatar: boolean;
 }
 
 export const UserProfile: React.FC<UserProfileProps> = ({
@@ -38,6 +40,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
   onUpdatePassword,
   onEditAvatar,
   isLoading,
+  isUpdatingAvatar,
 }) => {
   const router = useRouter();
 
@@ -63,13 +66,32 @@ export const UserProfile: React.FC<UserProfileProps> = ({
             <div className="flex items-center space-x-4 mb-6">
               <div className="relative">
                 <Avatar className="w-24 h-24">
-                  <AvatarImage src={user.avatar} alt={user.fullName} />
+                  {isUpdatingAvatar ? (
+                    <div className="flex justify-center items-center py-10">
+                      <Loader2 className="animate-spin h-12 w-12 text-gray-600" />
+                    </div>
+                  ) : (
+                    <AvatarImage
+                      src={user.avatar}
+                      alt={user.fullName}
+                      className="object-cover rounded-full"
+                    />
+                  )}
                   <AvatarFallback>{user.fullName}</AvatarFallback>
                 </Avatar>
+                <input
+                  type="file"
+                  id="avatar-upload"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => onEditAvatar(e.target.files[0])}
+                />
                 <Button
                   size="sm"
                   className="absolute bottom-0 right-0"
-                  onClick={onEditAvatar}
+                  onClick={() =>
+                    document.getElementById("avatar-upload").click()
+                  }
                 >
                   <Edit className="w-4 h-4" />
                 </Button>

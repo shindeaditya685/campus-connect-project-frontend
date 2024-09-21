@@ -9,6 +9,7 @@ import { User, LogOut } from "lucide-react";
 import Image from "next/image";
 import { useLogout } from "@/features/users-api/use-logout";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 type Props = {
   avatar: string;
@@ -16,12 +17,14 @@ type Props = {
   onViewProfile: () => void;
 };
 
-export default function UserButton({ avatar, username, onViewProfile }: Props) {
+export default function UserButton({ avatar, username }: Props) {
   const logout = useLogout();
 
   const handleLogout = () => {
     logout.mutate();
   };
+
+  const router = useRouter();
 
   return (
     <DropdownMenu>
@@ -40,7 +43,10 @@ export default function UserButton({ avatar, username, onViewProfile }: Props) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuItem onClick={onViewProfile} className="cursor-pointer">
+        <DropdownMenuItem
+          onClick={() => router.push("/account")}
+          className="cursor-pointer"
+        >
           <User className="mr-2 h-4 w-4" />
           <span>View Profile</span>
         </DropdownMenuItem>
