@@ -19,6 +19,12 @@ import {
 import { User, Edit, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+interface BookData {
+  title: string;
+  price: number;
+  status: string;
+}
+
 interface UserProfileProps {
   user: {
     username: string;
@@ -33,6 +39,7 @@ interface UserProfileProps {
   onEditAvatar: () => void;
   isLoading: boolean;
   isUpdatingAvatar: boolean;
+  books: BookData[];
 }
 
 export const UserProfile: React.FC<UserProfileProps> = ({
@@ -41,6 +48,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
   onEditAvatar,
   isLoading,
   isUpdatingAvatar,
+  books,
 }) => {
   const router = useRouter();
 
@@ -167,16 +175,13 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        <TableRow>
-                          <TableCell>Introduction to React</TableCell>
-                          <TableCell>$45.00</TableCell>
-                          <TableCell>Active</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Python Cookbook</TableCell>
-                          <TableCell>$35.00</TableCell>
-                          <TableCell>Sold</TableCell>
-                        </TableRow>
+                        {books?.map((book, index) => (
+                          <TableRow key={index}>
+                            <TableCell>{book?.title}</TableCell>
+                            <TableCell>${book?.price}</TableCell>
+                            <TableCell>{book?.status}</TableCell>
+                          </TableRow>
+                        ))}
                       </TableBody>
                     </Table>
                   </CardContent>

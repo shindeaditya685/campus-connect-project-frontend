@@ -4,9 +4,18 @@ import { UserProfile } from "@/components/profile/user-profile";
 import { useCurrentUser } from "@/features/users-api/use-current-user";
 import api from "@/lib/request-interceptor";
 import { useRouter } from "next/navigation";
+import { useUsersAvailbaleBooks } from "@/features/users-api/use-users-available-books";
 
 const Profile = () => {
-  const { data: currentUser, isLoading, refetch } = useCurrentUser();
+  const {
+    data: currentUser,
+    isLoading: isUserLoading,
+    refetch,
+  } = useCurrentUser();
+
+  const { data: usersBooks, isLoading: isBooksLoading } =
+    useUsersAvailbaleBooks(currentUser?.data?._id);
+
   const [isUpdatingAvatar, setIsUpdatingAvatar] = useState(false);
   const [avatarKey, setAvatarKey] = useState(Date.now());
   const router = useRouter();
@@ -61,6 +70,23 @@ const Profile = () => {
     router.push("/change-password");
   };
 
+  type BookData = {
+    _id: string;
+    title: string;
+    price: number;
+    status: string;
+  };
+
+  const books =
+    usersBooks?.data?.map((book: BookData) => ({
+      id: book._id,
+      title: book.title,
+      price: book.price,
+      status: book.status,
+    })) || [];
+
+  // console.log("books", books);
+
   return (
     <div className="w-full min-h-screen p-2 md:p-4 flex justify-center items-center overflow-auto">
       <div className="w-full max-w-[95%] sm:max-w-2xl">
@@ -68,8 +94,9 @@ const Profile = () => {
           user={user}
           onUpdatePassword={onUpdatePassword}
           onEditAvatar={onEditAvatar}
-          isLoading={isLoading}
+          isLoading={isUserLoading || isBooksLoading}
           isUpdatingAvatar={isUpdatingAvatar}
+          books={books}
         />
       </div>
     </div>
