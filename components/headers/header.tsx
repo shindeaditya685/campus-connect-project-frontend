@@ -15,7 +15,9 @@ export default function Header() {
   const { data: cartData } = useGetCart();
   const router = useRouter();
 
-  console.log(cartData?.data);
+  // console.log(cartData?.data?.cart?.books);
+
+  // console.log(cartData?.data);
 
   const cartSize = cartData?.data?.cart?.books?.length || 0;
 

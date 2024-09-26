@@ -48,7 +48,7 @@ export function LoginForm() {
       await mutation.mutateAsync(values);
       
     } catch (error) {
-      console.log("Error occured while logging into account", error);
+      // console.log("Error occured while logging into account", error);
       setError("Login failed. Please check your credentials and try again.");
     }
   };
