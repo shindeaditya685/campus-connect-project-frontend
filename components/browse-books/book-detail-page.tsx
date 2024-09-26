@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import BackButton from "./back-button";
 import Image from "next/image";
+import { useAddToCart } from "@/features/cart/use-add-to-cart";
 
 interface Book {
   _id: string;
@@ -37,6 +38,7 @@ interface BookDetailPageProps {
 
 const BookDetailPage: React.FC<BookDetailPageProps> = ({ book, isLoading }) => {
   const [mainImage, setMainImage] = useState<string>(book.images[0]);
+  const { mutate: addToCart, isPending: isAddingToCart } = useAddToCart();
 
   const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -44,6 +46,10 @@ const BookDetailPage: React.FC<BookDetailPageProps> = ({ book, isLoading }) => {
       month: "long",
       day: "numeric",
     });
+  };
+
+  const handleAddToCart = () => {
+    addToCart(book._id);
   };
 
   return (
@@ -110,7 +116,13 @@ const BookDetailPage: React.FC<BookDetailPageProps> = ({ book, isLoading }) => {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline">Add to Cart</Button>
+          <Button
+            variant="outline"
+            onClick={handleAddToCart}
+            disabled={isAddingToCart}
+          >
+            {isAddingToCart ? "Adding to Cart..." : "Add to Cart"}
+          </Button>
           <Button>Buy Now</Button>
         </CardFooter>
       </Card>

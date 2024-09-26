@@ -19,9 +19,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BookOpen, DollarSign, School } from "lucide-react";
+import {
+  BookOpen,
+  DollarSign,
+  IndianRupee,
+  IndianRupeeIcon,
+  School,
+} from "lucide-react";
 import { useAllBooks } from "@/features/books-api/use-all-books";
 import { useRouter } from "next/navigation";
+import { useAddToCart } from "@/features/cart/use-add-to-cart";
 
 // Define types for education levels and book conditions
 const educationLevels = [
@@ -274,6 +281,13 @@ const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
 
 const BookCard: React.FC<BookCardProps> = ({ book }) => {
   const router = useRouter();
+  const { mutate: addToCart, isPending: isAddingToCart } = useAddToCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent navigating to book details
+    addToCart(book.id);
+  };
+
   return (
     <Card
       className="flex flex-col h-full shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
@@ -304,10 +318,12 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
       </CardContent>
       <CardFooter className="flex justify-between items-center">
         <span className="text-lg font-bold flex items-center">
-          <DollarSign className="inline mr-1 h-5 w-5" />
+          <IndianRupee className="inline mr-1 h-5 w-5" />
           {book.price}
         </span>
-        <Button>Add to Cart</Button>
+        <Button onClick={handleAddToCart} disabled={isAddingToCart}>
+          {isAddingToCart ? "Adding..." : "Add to Cart"}
+        </Button>
       </CardFooter>
     </Card>
   );
