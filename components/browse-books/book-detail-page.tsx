@@ -12,6 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import BackButton from "./back-button";
 import Image from "next/image";
 import { useAddToCart } from "@/features/cart/use-add-to-cart";
+import { usePlaceOrder } from "@/features/orders-api/use-place-order";
 
 interface Book {
   _id: string;
@@ -39,6 +40,7 @@ interface BookDetailPageProps {
 const BookDetailPage: React.FC<BookDetailPageProps> = ({ book, isLoading }) => {
   const [mainImage, setMainImage] = useState<string>(book.images[0]);
   const { mutate: addToCart, isPending: isAddingToCart } = useAddToCart();
+  const { mutate: placeOrder, isPending: isOrderPending } = usePlaceOrder();
 
   const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -50,6 +52,10 @@ const BookDetailPage: React.FC<BookDetailPageProps> = ({ book, isLoading }) => {
 
   const handleAddToCart = () => {
     addToCart(book._id);
+  };
+
+  const handlePlaceOrder = () => {
+    placeOrder(book._id);
   };
 
   return (
@@ -123,7 +129,9 @@ const BookDetailPage: React.FC<BookDetailPageProps> = ({ book, isLoading }) => {
           >
             {isAddingToCart ? "Adding to Cart..." : "Add to Cart"}
           </Button>
-          <Button>Buy Now</Button>
+          <Button onClick={handlePlaceOrder} disabled={isOrderPending}>
+            Buy Now
+          </Button>
         </CardFooter>
       </Card>
     </div>
