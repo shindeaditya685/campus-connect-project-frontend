@@ -7,6 +7,7 @@ import { useMedia } from "react-use";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Menu } from "lucide-react";
+import { useCurrentUser } from "@/features/users-api/use-current-user";
 
 const routes = [
   {
@@ -32,6 +33,7 @@ const routes = [
 ];
 
 export default function Navigation() {
+  const { data: currentUser } = useCurrentUser();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const router = useRouter();
@@ -57,16 +59,22 @@ export default function Navigation() {
         </SheetTrigger>
         <SheetContent side="left" className="px-2">
           <nav className="flex flex-col gap-y-2 pt-6">
-            {routes.map((route) => (
-              <Button
-                key={route.href}
-                variant={route.href === pathname ? "secondary" : "ghost"}
-                onClick={() => onClick(route.href)}
-                className="w-full justify-start"
-              >
-                {route.label}
+            {!currentUser?.data?._id && (
+              <Button variant={"/" === pathname ? "secondary" : "ghost"}>
+                Home
               </Button>
-            ))}
+            )}
+            {currentUser?.data?._id &&
+              routes.map((route) => (
+                <Button
+                  key={route.href}
+                  variant={route.href === pathname ? "secondary" : "ghost"}
+                  onClick={() => onClick(route.href)}
+                  className="w-full justify-start"
+                >
+                  {route.label}
+                </Button>
+              ))}
           </nav>
         </SheetContent>
       </Sheet>
@@ -75,14 +83,16 @@ export default function Navigation() {
 
   return (
     <nav className="flex gap-3">
-      {routes.map((route, index) => (
-        <NavButton
-          label={route.label}
-          href={route.href}
-          isActive={pathname === route.href}
-          key={index}
-        />
-      ))}
+      {!currentUser?.data?._id && <Button>Home</Button>}
+      {currentUser?.data?._id &&
+        routes.map((route, index) => (
+          <NavButton
+            label={route.label}
+            href={route.href}
+            isActive={pathname === route.href}
+            key={index}
+          />
+        ))}
     </nav>
   );
 }
