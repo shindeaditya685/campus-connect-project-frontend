@@ -155,7 +155,7 @@ const OrderPage = () => {
     try {
       await api.post(`/orders/cancel-order/${orderId}`);
       // @ts-expect-error
-      queryClient.invalidateQueries(["order-page"]);
+      queryClient.invalidateQueries(["orders"]);
       toast.success("Order cancelled!");
     } catch (error) {
       console.error("Failed to cancel order:", error);
@@ -189,9 +189,9 @@ const OrderPage = () => {
   };
 
   groupedOrders.forEach((groupedOrder) => {
-    groupedOrder.orders.forEach((order) => {
-      ordersByStatus[order.status]?.push(order);
-    });
+    groupedOrder.orders.forEach((order) =>
+      ordersByStatus[order.status]?.push(order)
+    );
   });
 
   return (
