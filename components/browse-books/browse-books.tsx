@@ -19,13 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  BookOpen,
-  DollarSign,
-  IndianRupee,
-  IndianRupeeIcon,
-  School,
-} from "lucide-react";
+import { BookOpen, IndianRupee, School } from "lucide-react";
 import { useAllBooks } from "@/features/books-api/use-all-books";
 import { useRouter } from "next/navigation";
 import { useAddToCart } from "@/features/cart/use-add-to-cart";

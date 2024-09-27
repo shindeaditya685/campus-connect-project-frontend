@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, DollarSign, BookOpen, IndianRupeeIcon } from "lucide-react";
+import { Upload, BookOpen, IndianRupeeIcon } from "lucide-react";
 import { useRegisterBook } from "@/features/books-api/use-register-book";
 
 const educationLevels = [
