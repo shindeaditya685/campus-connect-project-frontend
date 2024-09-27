@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { User, Edit, Loader2 } from "lucide-react";
+import { User, Edit, Loader2, IndianRupeeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface BookData {
@@ -178,7 +178,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                         {books?.map((book, index) => (
                           <TableRow key={index}>
                             <TableCell>{book?.title}</TableCell>
-                            <TableCell>${book?.price}</TableCell>
+                            <TableCell>₹{book?.price}</TableCell>
                             <TableCell>{book?.status}</TableCell>
                           </TableRow>
                         ))}
