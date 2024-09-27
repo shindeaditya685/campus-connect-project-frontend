@@ -5,6 +5,7 @@ import { useCurrentUser } from "@/features/users-api/use-current-user";
 import api from "@/lib/request-interceptor";
 import { useRouter } from "next/navigation";
 import { useUsersAvailbaleBooks } from "@/features/users-api/use-users-available-books";
+import ProtectedRoute from "@/components/protected-route/protected-route";
 
 const Profile = () => {
   const {
@@ -84,18 +85,20 @@ const Profile = () => {
   // console.log("books", books);
 
   return (
-    <div className="w-full min-h-screen p-2 md:p-4 flex justify-center items-center overflow-auto">
-      <div className="w-full max-w-[95%] sm:max-w-2xl">
-        <UserProfile
-          user={user}
-          onUpdatePassword={onUpdatePassword}
-          onEditAvatar={onEditAvatar}
-          isLoading={isUserLoading || isBooksLoading}
-          isUpdatingAvatar={isUpdatingAvatar}
-          books={books}
-        />
+    <ProtectedRoute>
+      <div className="w-full min-h-screen p-2 md:p-4 flex justify-center items-center overflow-auto">
+        <div className="w-full max-w-[95%] sm:max-w-2xl">
+          <UserProfile
+            user={user}
+            onUpdatePassword={onUpdatePassword}
+            onEditAvatar={onEditAvatar}
+            isLoading={isUserLoading || isBooksLoading}
+            isUpdatingAvatar={isUpdatingAvatar}
+            books={books}
+          />
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 };
 

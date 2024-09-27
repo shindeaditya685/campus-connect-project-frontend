@@ -6,6 +6,7 @@ import { useClearCart } from "@/features/cart/use-clear-cart";
 import { useRemoveFromCart } from "@/features/cart/use-remove-from-cart";
 import { useGetCart } from "@/features/cart/use-get-cart";
 import { usePlaceOrder } from "@/features/orders-api/use-place-order";
+import ProtectedRoute from "@/components/protected-route/protected-route";
 
 const CartPage: React.FC = () => {
   const { data: cartData } = useGetCart();
@@ -27,15 +28,17 @@ const CartPage: React.FC = () => {
   };
 
   return (
-    <BookCart
-      onBuyBook={onBuyBook}
-      cartData={cartData}
-      isClearPending={isClearPending}
-      onClearCart={onClearCart}
-      onRemoveBook={onRemoveBook}
-      isRemovePending={isRemovePending}
-      isBuying={isBuying}
-    />
+    <ProtectedRoute>
+      <BookCart
+        onBuyBook={onBuyBook}
+        cartData={cartData}
+        isClearPending={isClearPending}
+        onClearCart={onClearCart}
+        onRemoveBook={onRemoveBook}
+        isRemovePending={isRemovePending}
+        isBuying={isBuying}
+      />
+    </ProtectedRoute>
   );
 };
 

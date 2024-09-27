@@ -60,7 +60,7 @@ export default function Navigation() {
         <SheetContent side="left" className="px-2">
           <nav className="flex flex-col gap-y-2 pt-6">
             {!currentUser?.data?._id && (
-              <Button variant={"/" === pathname ? "secondary" : "ghost"}>
+              <Button variant={"/" === pathname ? "ghost" : "secondary"}>
                 Home
               </Button>
             )}

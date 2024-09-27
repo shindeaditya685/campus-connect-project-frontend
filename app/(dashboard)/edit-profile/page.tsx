@@ -1,5 +1,6 @@
 "use client";
 import { EditProfileForm } from "@/components/profile/edit-profile-form";
+import ProtectedRoute from "@/components/protected-route/protected-route";
 import { useCurrentUser } from "@/features/users-api/use-current-user";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -24,11 +25,13 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="w-full min-h-screen p-2 md:p-4 flex justify-center items-center overflow-auto">
-      <div className="w-full max-w-[95%] sm:max-w-2xl">
-        <EditProfileForm user={user} isLoading={isLoading} onBack={onBack} />
+    <ProtectedRoute>
+      <div className="w-full min-h-screen p-2 md:p-4 flex justify-center items-center overflow-auto">
+        <div className="w-full max-w-[95%] sm:max-w-2xl">
+          <EditProfileForm user={user} isLoading={isLoading} onBack={onBack} />
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 };
 
