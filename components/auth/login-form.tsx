@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { User, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { useLogin } from "@/features/users-api/use-login";
+import Link from "next/link";
 
 export const loginSchema = z.object({
   username: z.string().min(1, { message: "Username is required." }),
@@ -46,8 +49,7 @@ export function LoginForm() {
     setError(null);
     try {
       await mutation.mutateAsync(values);
-      
-    } catch (error) {
+    } catch (error: any) {
       // console.log("Error occured while logging into account", error);
       setError("Login failed. Please check your credentials and try again.");
     }
@@ -135,9 +137,18 @@ export function LoginForm() {
             >
               {mutation.isPending ? "Logging in..." : "Login"}
             </Button>
+
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         </Form>
+        <div className="pt-4 w-full text-center text-sm">
+          <Link
+            href={"/register"}
+            className="text-gray-400 hover:underline font-medium"
+          >
+            Don&apos;t have an account?
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );
