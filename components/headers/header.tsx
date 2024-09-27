@@ -15,10 +15,6 @@ export default function Header() {
   const { data: cartData } = useGetCart();
   const router = useRouter();
 
-  // console.log(cartData?.data?.cart?.books);
-
-  // console.log(cartData?.data);
-
   const cartSize = cartData?.data?.cart?.books?.length || 0;
 
   const onViewProfile = () => {
@@ -30,8 +26,8 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full bg-zinc-900">
-      <div className="flex justify-between items-center py-6 px-10">
+    <header className="sticky top-0 z-50 w-full bg-zinc-900 shadow-md">
+      <div className="flex justify-between items-center py-4 px-6 lg:px-10 max-w-7xl mx-auto">
         <div className="hidden lg:flex">
           <NavLogo />
         </div>
